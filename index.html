@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Plano PRF — Ciclo de Estudos</title>
+<meta name="theme-color" content="#003785">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Plano PRF">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+  --azul:#003785; --azul2:#2457b3; --azulClaro:#e8eef9;
+  --verm:#c0504d; --vermClaro:#fbeaea;
+  --amar:#fff4c2; --verde:#2e7d32; --verdeClaro:#e8f5e9;
+  --laranja:#b26a00; --laranjaClaro:#fff3e0;
+  --cinza:#6b7280; --borda:#e0e0e0; --texto:#1a1a1a; --fundo:#f6f7fb;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--fundo);color:var(--texto);font-size:14px}
+main{max-width:1100px;margin:0 auto;padding:18px 20px 30px}
+.layout{display:flex;min-height:100vh}
+aside{width:240px;background:#fff;border-right:1px solid var(--borda);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:18px 12px;flex-shrink:0;overflow-y:auto}
+.brand{display:flex;gap:10px;align-items:center;padding:2px 10px 20px}
+.brand .ic{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#003785,#2457b3);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px;letter-spacing:.5px}
+.brand b{color:var(--azul);font-size:15px;letter-spacing:1px;display:block}.brand small{color:var(--cinza);font-size:11.5px}
+aside .it{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;padding:10px 12px;border-radius:10px;font-size:14px;color:#374151;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:2px}
+aside .it:hover{background:#f3f5fa}
+aside .it.on{background:var(--azulClaro);color:var(--azul);font-weight:700}
+aside .it .badge{margin-left:auto}
+.badge{background:var(--verm);color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700}
+aside .side-timer{margin-top:auto;background:var(--azulClaro);border-radius:12px;padding:12px;cursor:pointer;display:none}
+.ico{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.content{flex:1;min-width:0}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(246,247,251,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px 20px;padding-top:calc(14px + env(safe-area-inset-top));display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--borda)}
+.topbar .brand{display:none;padding:0}
+#pgTitle{font-size:19px;font-weight:700;color:var(--azul)}
+.mini{margin-left:auto;background:var(--azul);color:#fff;padding:6px 13px;border-radius:20px;cursor:pointer;display:none;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600}
+.bnav{display:none}
+.hero{background:linear-gradient(135deg,#003785 0%,#2457b3 100%);color:#fff;border-radius:18px;padding:20px 22px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,55,133,.18)}
+.hero .s{font-size:12.5px;opacity:.85}.hero .h{font-size:12px;letter-spacing:2px;margin-top:12px;opacity:.8;text-transform:uppercase}
+.hero .t{font-size:19px;font-weight:700;margin:4px 0 2px}.hero .tp{font-size:13.5px;opacity:.92}
+.hero .acts{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn.white{background:#fff;color:var(--azul);font-weight:700;padding:10px 18px;border-radius:10px}
+.btn.ghost{background:rgba(255,255,255,.15);color:#fff;padding:10px 16px;border-radius:10px}
+.ring{position:relative;width:270px;height:270px;margin:16px auto 6px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .rbg{fill:none;stroke:#e8eef9;stroke-width:12}
+.ring .rfg{fill:none;stroke:var(--azul);stroke-width:12;stroke-linecap:round;stroke-dasharray:678.6;stroke-dashoffset:678.6;transition:stroke-dashoffset .9s linear,stroke .3s}
+.ring .rin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:45;display:none}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:10px 14px calc(18px + env(safe-area-inset-bottom));z-index:46}
+.sheet .grab{width:40px;height:4px;background:#d1d5db;border-radius:2px;margin:0 auto 12px}
+.sheet .it{display:flex;align-items:center;gap:14px;width:100%;border:none;background:none;padding:14px 10px;font-size:15px;color:#374151;font-family:inherit;border-bottom:1px solid #f0f0f0;text-align:left;cursor:pointer}
+.sheet .it .badge{margin-left:auto}
+@media(max-width:860px){
+  aside{display:none}
+  .topbar .brand{display:flex}.topbar .brand>div:last-child{display:none}
+  .bnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--borda);padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:30;justify-content:space-around;box-shadow:0 -2px 12px rgba(0,0,0,.05)}
+  .bnav button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:#6b7280;padding:4px 2px;position:relative;font-family:inherit;cursor:pointer}
+  .bnav button.on{color:var(--azul);font-weight:700}
+  .bnav .badge{position:absolute;top:-2px;left:calc(50% + 4px);font-size:9.5px;padding:0 5px}
+  .bnav .fab .fc{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#003785,#2457b3);color:#fff;display:grid;place-items:center;margin-top:-24px;box-shadow:0 4px 14px rgba(0,55,133,.35);border:4px solid #fff}
+  main{padding:14px 12px 100px}
+  .hm{display:none}
+  .card .bd{overflow-x:auto}
+}
+.card{background:#fff;border:1px solid var(--borda);border-radius:16px;margin-bottom:16px;overflow:hidden;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.card>h2{margin:0;background:var(--azul);color:#fff;font-size:14px;letter-spacing:2px;padding:10px 16px;font-weight:700;text-transform:uppercase}
+.card .bd{padding:16px}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.kpi{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:13px 15px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.kpi .l{font-size:12px;color:var(--cinza)}
+.kpi .v{font-size:24px;font-weight:700;color:var(--azul);font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12px;color:var(--cinza)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--azul);color:#fff;font-size:12.5px;padding:8px;border:1px solid #ddd;text-align:left}
+td{padding:8px;border:1px solid #e6e6e6;font-size:13px;vertical-align:middle}
+tr.prox td{background:var(--amar)}
+.btn{background:var(--azul);color:#fff;border:none;border-radius:7px;padding:8px 14px;cursor:pointer;font-size:13px;font-family:inherit}
+.btn:hover{background:var(--azul2)}
+.btn.sec{background:#fff;color:var(--azul);border:1px solid var(--azul)}
+.btn.ok{background:var(--verde)}
+.btn.ko{background:var(--verm)}
+.btn.sm{padding:4px 9px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:default}
+input,select,textarea{font-family:inherit;font-size:13.5px;padding:7px 9px;border:1px solid #cfd4dc;border-radius:7px;background:#fff;width:100%}
+textarea{min-height:70px;resize:vertical}
+label{font-size:12.5px;color:#444;display:block;margin-bottom:4px;font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>div{flex:1;min-width:140px}
+.bar{height:10px;background:#edf0f5;border-radius:6px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--azul)}
+.pill{display:inline-block;white-space:nowrap;padding:2px 8px;border-radius:10px;font-size:11.5px;font-weight:600}
+.p0{background:#eef0f3;color:#555}.p1{background:var(--laranjaClaro);color:var(--laranja)}.p2{background:var(--verdeClaro);color:var(--verde)}
+.alta{background:var(--vermClaro);color:var(--verm)}.media{background:var(--laranjaClaro);color:var(--laranja)}.baixa{background:var(--azulClaro);color:var(--azul)}
+.muted{color:var(--cinza);font-size:12.5px}
+.disc-h{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--azulClaro);cursor:pointer;border-top:1px solid var(--borda)}
+.disc-h b{color:var(--azul)}
+.disc-h .bar{flex:0 0 120px}
+.timer-big{font-size:54px;font-weight:700;color:var(--azul);text-align:center;font-variant-numeric:tabular-nums;letter-spacing:2px;margin:10px 0}
+.phase{text-align:center;font-weight:700;letter-spacing:2px;font-size:13px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:flex-start;justify-content:center;z-index:50;overflow:auto;padding:30px 10px}
+.modal{background:#fff;border-radius:12px;max-width:620px;width:100%;overflow:hidden}
+.modal h3{margin:0;background:var(--azul);color:#fff;padding:10px 16px;font-size:14px;letter-spacing:1.5px}
+.modal .bd{padding:16px}
+.neg{color:var(--verm);font-weight:700}
+.hl{background:var(--amar);padding:0 3px;border-radius:3px}
+.term{color:var(--azul);font-weight:700}
+.met p,.met li{line-height:1.85;font-size:13.5px}
+.met h4{color:var(--azul);margin:18px 0 6px;font-size:14.5px}
+.flash{border:2px solid var(--azul);border-radius:12px;padding:20px;min-height:140px;font-size:15px;line-height:1.7;background:#fff}
+.chart{display:flex;align-items:flex-end;gap:6px;height:160px;border-bottom:1px solid #ccc;padding-top:10px}
+.chart .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.chart .c i{display:block;width:100%;background:var(--azul2);border-radius:4px 4px 0 0;min-height:1px}
+.chart .c span{font-size:10px;color:#666;margin-top:3px}
+.hbar{display:flex;align-items:center;gap:8px;margin:6px 0}
+.hbar .n{flex:0 0 170px;font-size:12.5px}
+.hbar .t{flex:1;height:16px;background:#edf0f5;border-radius:4px;position:relative;overflow:hidden}
+.hbar .t i{display:block;height:100%}
+.hbar .t .m{position:absolute;top:0;bottom:0;width:2px;background:#333;opacity:.5}
+.hbar .p{flex:0 0 70px;text-align:right;font-size:12.5px;font-variant-numeric:tabular-nums}
+.tip{background:var(--azulClaro);border-left:4px solid var(--azul);padding:10px 14px;border-radius:6px;font-size:13px;line-height:1.7;margin:10px 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 18px;border-radius:8px;z-index:60;display:none;font-size:13px}
+.hide{display:none}
+.g4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+@media(max-width:600px){.g4{grid-template-columns:1fr 1fr}.kpi .v{font-size:21px}.ring{width:240px;height:240px}.timer-big{font-size:46px}.hbar .n{flex-basis:110px}}
+</style>
+</head>
+<body>
+<div class="layout">
+ <aside id="side"></aside>
+ <div class="content">
+  <div class="topbar"><div class="brand"><div class="ic">PRF</div><div></div></div><span id="pgTitle"></span><span class="mini" id="miniTimer" onclick="go('timer')"></span></div>
+  <main id="app"></main>
+ </div>
+</div>
+<nav class="bnav" id="bnav"></nav>
+<div class="sheet-bg" id="sheetBg" onclick="closeSheet()"></div><div class="sheet" id="sheet" style="display:none"></div>
+
+<div class="modal-bg" id="modalBg"><div class="modal"><h3 id="mTitle"></h3><div class="bd" id="mBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   EDITAL PRF (base 2021) — recorte escolhido:
+   fora: Física, Ética e Cidadania, Geopolítica, Língua Estrangeira,
+   Resoluções do CONTRAN. w = nº de itens na prova de 2021.
+   ========================================================= */
+const DISC=[
+ {k:'por',n:'Língua Portuguesa',b:'I',w:18,t:[
+  'Compreensão e interpretação de textos de gêneros variados',
+  'Tipos e gêneros textuais',
+  'Ortografia oficial',
+  'Coesão: referenciação, substituição e repetição',
+  'Coesão: conectores e sequenciação textual',
+  'Emprego de tempos e modos verbais',
+  'Emprego das classes de palavras',
+  'Coordenação entre orações e entre termos',
+  'Subordinação entre orações e entre termos',
+  'Pontuação',
+  'Concordância verbal e nominal',
+  'Regência verbal e nominal',
+  'Crase',
+  'Colocação dos pronomes átonos',
+  'Significação das palavras',
+  'Reescrita: substituição de palavras e trechos',
+  'Reescrita: reorganização de orações/períodos e níveis de formalidade',
+  'Redação oficial (Manual da Presidência): aspectos gerais, finalidade, linguagem e formato']},
+ {k:'adm',n:'Direito Administrativo',b:'III',w:7,t:[
+  'Regime jurídico-administrativo: conceito e princípios expressos e implícitos',
+  'Administração Pública: conceitos',
+  'Organização administrativa: centralização, descentralização, concentração e desconcentração; direta e indireta',
+  'Autarquias',
+  'Fundações, empresas públicas e sociedades de economia mista',
+  'Poderes administrativos: hierárquico, disciplinar, regulamentar e de polícia; uso e abuso do poder',
+  'Ato administrativo: conceito, requisitos, atributos, classificação e espécies',
+  'Licitações (Lei 14.133/2021) — Título I: âmbito, princípios, definições e agentes públicos (arts. 1–10)',
+  'Licitações — Título II, Cap. I: processo licitatório, objetivos e fases (arts. 11–17)',
+  'Licitações — Cap. II, Seção I: fase preparatória e instrução do processo (arts. 18–27)',
+  'Licitações — Cap. II, Seções II e III: modalidades e critérios de julgamento (arts. 28–39)',
+  'Licitações — Cap. II, Seção IV: disposições setoriais — compras, obras, serviços, locação e licitações internacionais (arts. 40–52)',
+  'Licitações — Caps. III a VII: divulgação do edital, propostas e lances, julgamento, habilitação e encerramento (arts. 53–71)',
+  'Licitações — Cap. VIII: contratação direta — inexigibilidade e dispensa (arts. 72–75)',
+  'Licitações — Caps. IX e X: alienações e instrumentos auxiliares (credenciamento, pré-qualificação, PMI, SRP, registro cadastral) (arts. 76–88)',
+  'Controle da Administração: administrativo, judicial e legislativo',
+  'Responsabilidade civil do Estado: comissiva, omissiva, requisitos, excludentes e atenuantes',
+  'Agentes públicos: conceito, espécies, cargo/emprego/função e disposições constitucionais',
+  'Lei 8.112/1990 — Títulos I e II: disposições preliminares; provimento, vacância, remoção, redistribuição e substituição (arts. 1–39)',
+  'Lei 8.112/1990 — Título III: direitos e vantagens (arts. 40–115) — título extenso: várias sessões',
+  'Lei 8.112/1990 — Título IV: regime disciplinar (arts. 116–142)',
+  'Lei 8.112/1990 — Título V: processo administrativo disciplinar (arts. 143–182)',
+  'Lei 8.112/1990 — Títulos VI a IX: seguridade social do servidor e disposições finais (arts. 183–253)',
+  'Carreira PRF: Lei 9.654/1998, Lei 12.855/2013, Lei 13.712/2018 e Decreto 8.282/2014']},
+ {k:'tra',n:'Legislação de Trânsito (CTB)',b:'II',w:9,t:[
+  'CTB — Cap. I: disposições preliminares (arts. 1–4)',
+  'CTB — Cap. II: Sistema Nacional de Trânsito — composição e competências (arts. 5–25)',
+  'CTB — Cap. III: normas gerais de circulação e conduta (arts. 26–67) — capítulo extenso: várias sessões',
+  'CTB — Cap. III-A: condução de veículos por motoristas profissionais (arts. 67-A–67-E)',
+  'CTB — Caps. IV e V: pedestres e condutores de veículos não motorizados; do cidadão (arts. 68–73)',
+  'CTB — Cap. VI: educação para o trânsito (arts. 74–79)',
+  'CTB — Cap. VII: sinalização de trânsito (arts. 80–90)',
+  'CTB — Cap. VIII: engenharia de tráfego, operação, fiscalização e policiamento ostensivo (arts. 91–95)',
+  'CTB — Caps. IX e X: veículos (classificação, segurança, identificação) e circulação internacional (arts. 96–119)',
+  'CTB — Cap. XI: registro de veículos (arts. 120–129)',
+  'CTB — Cap. XII: licenciamento (arts. 130–135)',
+  'CTB — Caps. XIII e XIII-A: condução de escolares e de motofrete (arts. 136–139-B)',
+  'CTB — Cap. XIV: habilitação (arts. 140–160)',
+  'CTB — Cap. XV: infrações (arts. 161–255) — capítulo extenso: várias sessões',
+  'CTB — Cap. XVI: penalidades (arts. 256–268)',
+  'CTB — Cap. XVII: medidas administrativas (arts. 269–279)',
+  'CTB — Cap. XVIII: processo administrativo — autuação e julgamento (arts. 280–290)',
+  'CTB — Cap. XIX: crimes de trânsito — disposições gerais e crimes em espécie (arts. 291–312-B)',
+  'CTB — Cap. XX: disposições finais e transitórias (arts. 313–341) e alterações da Lei 14.071/2020',
+  'CTB — Anexo I: conceitos e definições',
+  'Lei 5.970/1973 (remoção de veículos em acidente)']},
+ {k:'con',n:'Direito Constitucional',b:'III',w:7,t:[
+  'Poder constituinte: fundamentos, originário e derivado, reforma, revisão, limites e emendas',
+  'Direitos e deveres individuais e coletivos: vida, liberdade, igualdade, segurança e propriedade',
+  'Garantias individuais e remédios constitucionais',
+  'Direitos sociais',
+  'Nacionalidade',
+  'Cidadania e direitos políticos',
+  'Garantias dos direitos coletivos, sociais e políticos',
+  'Poder Executivo: forma e sistema de governo, chefias, atribuições e responsabilidades do Presidente',
+  'Da União: bens e competências (arts. 20–24)',
+  'Forças Armadas (art. 142)',
+  'Segurança pública (art. 144), organização e atribuições da PRF',
+  'Ordem social: base, objetivos e seguridade social',
+  'Ordem social: meio ambiente; família, criança, adolescente, idoso e índio']},
+ {k:'rlm',n:'Raciocínio Lógico-Matemático',b:'I',w:6,t:[
+  'Teoria dos conjuntos','Conjuntos numéricos','Operações básicas','Potências de dez',
+  'Frações, razão e proporção','Regra de três simples e composta','Porcentagem',
+  'Equações do 1º grau','Equações do 2º grau','Sistemas lineares',
+  'Noção de função e análise gráfica','Função afim','Função quadrática','Função exponencial','Função logarítmica',
+  'Sequências numéricas e padrões (raciocínio sequencial)','Progressão aritmética','Progressão geométrica',
+  'Geometria plana: áreas, escalas, mapas e plantas','Geometria espacial: volumes, projeções, planificações e cortes',
+  'Orientação espacial','Leitura de tabelas e gráficos','Médias, mediana e moda','Desvio padrão e variância',
+  'Análise combinatória (contagem)','Probabilidade']},
+ {k:'pen',n:'Direito Penal',b:'III',w:5,t:[
+  'Princípios básicos do Direito Penal',
+  'Lei penal no tempo: tempo do crime e conflito de leis',
+  'Lei penal no espaço: lugar do crime, territorialidade e extraterritorialidade',
+  'Tipicidade: dolo, culpa e erro de tipo',
+  'Consumação, tentativa e crime impossível',
+  'Punibilidade e causas de extinção',
+  'Ilicitude: excludentes e excesso punível',
+  'Culpabilidade: imputabilidade, erro de proibição e excludentes',
+  'Crimes contra a pessoa','Crimes contra o patrimônio','Crimes contra a dignidade sexual',
+  'Crimes contra a incolumidade pública','Crimes contra a fé pública','Crimes contra a Administração Pública']},
+ {k:'inf',n:'Informática',b:'I',w:7,t:[
+  'Conceito de internet e Internet das Coisas (IoT)','Intranet e VPN','Computação na nuvem (cloud computing)',
+  'Ferramentas de busca e pesquisa','Redes sociais','Navegadores (navegação)','Correio eletrônico e grupos de discussão',
+  'Conceitos de proteção e segurança','Vírus, worms, phishing e pragas virtuais','Antivírus, firewall e anti-spyware',
+  'Sistema operacional Windows','Ferramentas colaborativas','Acesso remoto, transferência de arquivos e multimídia',
+  'Big data','Inteligência artificial (transformação digital)']},
+ {k:'ppe',n:'Direito Processual Penal',b:'III',w:5,t:[
+  'Ação penal: conceito, características, espécies e condições',
+  'Termo Circunstanciado (Lei 9.099/1995) e atos processuais: forma, lugar e tempo',
+  'Prova: conceito, objeto, classificação, ônus, provas ilícitas e preservação do local de crime',
+  'Meios de prova: perícia, interrogatório, confissão, ofendido, testemunhas, reconhecimento, acareação, documentos e indícios',
+  'Busca e apreensão: pessoal e domiciliar, requisitos, restrições e horários',
+  'Prisão: conceito, formalidades, espécies, mandado e cumprimento',
+  'Prisão em flagrante',
+  'Identificação criminal (CF art. 5º, LVIII, e Lei 12.037/2009, art. 3º)',
+  'Diligências investigatórias (arts. 6º e 13 do CPP)']},
+ {k:'leg',n:'Legislação Especial',b:'III',w:6,t:[
+  'Lei 5.553/1968 (documentos de identificação) e Lei 12.037/2009',
+  'ECA (Lei 8.069/1990) — Livro I: disposições preliminares, direitos fundamentais e prevenção (arts. 1–85)',
+  'ECA — Livro II, Títulos I e II: política de atendimento e medidas de proteção (arts. 86–102)',
+  'ECA — Título III: prática de ato infracional e medidas socioeducativas (arts. 103–128)',
+  'ECA — Títulos IV a VI: medidas pertinentes aos pais, conselho tutelar e acesso à justiça (arts. 129–224)',
+  'ECA — Título VII: crimes e infrações administrativas (arts. 225–258-C)',
+  'Crimes hediondos — Lei 8.072/1990',
+  'Decreto 1.655/1995 e art. 47 do Decreto 9.662/2019',
+  'Juizados Especiais — Lei 9.099/1995','Tortura — Lei 9.455/1997',
+  'Crimes ambientais — Lei 9.605/1998 (Caps. III e V)','Estatuto do Desarmamento — Lei 10.826/2003 (Cap. IV)',
+  'Lei de Drogas (Lei 11.343/2006) — Títulos I a III: Sisnad, prevenção e usuário (arts. 1–30)',
+  'Lei de Drogas — Título IV, Caps. I e II: repressão e crimes (arts. 31–47)',
+  'Lei de Drogas — Título IV, Caps. III e IV e disposições finais: procedimento penal e bens apreendidos (arts. 48–75)',
+  'Organização criminosa — Lei 12.850/2013',
+  'SUSP — Lei 13.675/2018','Abuso de autoridade — Lei 13.869/2019']},
+ {k:'dhu',n:'Direitos Humanos',b:'III',w:5,t:[
+  'Direitos humanos na CF e status dos tratados internacionais',
+  'Declaração Universal dos Direitos Humanos',
+  'Convenção Americana sobre Direitos Humanos (Decreto 678/1992)']}
+];
+/* tópicos que você já consolidou na preparação anterior: entram direto como revisão */
+const BASE_ANTERIOR=['adm-6','con-7','pen-8','pen-9','pen-13','ppe-0','ppe-1','ppe-5','ppe-6','leg-8','leg-17'];
+/* v1 → v2: leis extensas divididas por capítulo. Índice antigo → índice novo */
+const MAP2={adm:[0,1,2,3,4,5,6,7,10,15,16,17,18,19,20,23],tra:[0,2,4,6,8,9,11,12,13,14,15,16,17,18,20],leg:[0,1,6,7,8,9,10,11,12,15,16,17]};
+const remap2=id=>{if(!id)return id;const [k,i]=id.split('-');return MAP2[k]&&MAP2[k][+i]!=null?k+'-'+MAP2[k][+i]:id};
+function migrate(d){
+  if((d.v||1)<2){const nt={};
+    for(const id in d.topics){const n=remap2(id),t=d.topics[id];
+      if(nt[n]){nt[n].c+=t.c;nt[n].e+=t.e;if(t.st>nt[n].st)Object.assign(nt[n],{...t,c:nt[n].c,e:nt[n].e})}else nt[n]={...t}}
+    d.topics=nt;(d.sessions||[]).forEach(s=>s.topic=remap2(s.topic));(d.errors||[]).forEach(e=>e.topic=remap2(e.topic));
+    if(d.timer)d.timer.topic=remap2(d.timer.topic);d.v=2;}
+  return d;}
+const INT=[1,7,15,30,60,120];     // revisão espaçada dos tópicos (dias)
+const INT_ERR=[1,3,7,15,30];      // revisão do caderno de erros (dias)
+const KEY='prf_plano_v1';
+const DM=Object.fromEntries(DISC.map(d=>[d.k,d]));
+const MAXW=Math.max(...DISC.map(d=>d.w));
+
+/* ---------- datas ---------- */
+const ymd=d=>{d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const today=()=>ymd();
+const addDays=(s,n)=>{const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return ymd(d)};
+const diffDays=(a,b)=>Math.round((new Date(a+'T12:00:00')-new Date(b+'T12:00:00'))/864e5);
+const br=s=>s?s.split('-').reverse().join('/'):'—';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const pct=(c,e)=>c+e?Math.round(100*c/(c+e)):null;
+
+/* ---------- estado ---------- */
+function init(){
+  const s={v:2,config:{horasDia:3,reserva:25,diasCiclo:7,foco:50,pausa:10,metaQ:30,dataProva:''},
+    topics:{},sessions:[],errors:[],cycle:{n:1,done:{}},timer:null,ui:{tab:'home',open:{}}};
+  DISC.forEach(d=>d.t.forEach((_,i)=>{s.topics[d.k+'-'+i]={st:0,c:0,e:0,stage:-1,next:null,last:null,rev:0}}));
+  BASE_ANTERIOR.forEach((id,i)=>{const t=s.topics[id];if(t){t.st=2;t.stage=0;t.next=addDays(today(),i%7);t.base=1}});
+  return s;
+}
+function load(){
+  try{let d=JSON.parse(localStorage.getItem(KEY));if(d&&d.topics){d=migrate(d);
+    const fresh=init();
+    for(const id in fresh.topics) if(!d.topics[id]) d.topics[id]=fresh.topics[id];
+    d.config={...fresh.config,...d.config};d.ui=d.ui||fresh.ui;d.ui.open=d.ui.open||{};
+    d.cycle=d.cycle||fresh.cycle;d.errors=d.errors||[];d.sessions=d.sessions||[];
+    return d;}}catch(e){}
+  return init();
+}
+let S=load();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Não foi possível salvar no navegador')}};
+
+/* ---------- cálculos ---------- */
+const tName=id=>{const [k,i]=id.split('-');return DM[k]?.t[+i]||id};
+const dStats=k=>{let c=0,e=0,done=0,st1=0;const d=DM[k];
+  d.t.forEach((_,i)=>{const t=S.topics[k+'-'+i];c+=t.c;e+=t.e;if(t.st===2)done++;if(t.st===1)st1++});
+  const min=S.sessions.filter(s=>s.disc===k).reduce((a,s)=>a+s.min,0);
+  return {c,e,acc:pct(c,e),done,st1,tot:d.t.length,min,net:c-e};};
+function quotas(){
+  const cfg=S.config;const total=Math.round(cfg.horasDia*60*(1-cfg.reserva/100)*cfg.diasCiclo);
+  const raw=DISC.map(d=>{const s=dStats(d.k);let f=1;
+    if(s.acc!=null&&s.c+s.e>=10){f=s.acc<60?1.35:s.acc<75?1.15:s.acc<85?1:0.8}
+    if(s.done===s.tot)f*=0.35;return d.w*f;});
+  const sum=raw.reduce((a,b)=>a+b,0);
+  const q={};DISC.forEach((d,i)=>{q[d.k]=Math.max(45,Math.round(total*raw[i]/sum/15)*15)});
+  return q;
+}
+function nextTopic(k){const d=DM[k];
+  for(let i=0;i<d.t.length;i++){if(S.topics[k+'-'+i].st===1)return k+'-'+i}
+  for(let i=0;i<d.t.length;i++){if(S.topics[k+'-'+i].st===0)return k+'-'+i}
+  return null;}
+function cycleOrder(){const q=quotas();return DISC.map(d=>({k:d.k,q:q[d.k],done:S.cycle.done[d.k]||0}))}
+function nextDiscs(n){const o=cycleOrder();const pend=o.filter(x=>x.done<x.q);return (pend.length?pend:o).slice(0,n)}
+function checkCycle(){const o=cycleOrder();if(o.every(x=>x.done>=x.q)){S.cycle.n++;S.cycle.done={};toast('Ciclo concluído! Iniciando ciclo '+S.cycle.n)}}
+function revScore(id){const [k]=id.split('-');const t=S.topics[id];const a=pct(t.c,t.e);
+  const over=Math.max(0,diffDays(today(),t.next));
+  return Math.round(100*(0.4*DM[k].w/MAXW+0.4*(1-(a==null?60:a)/100)+0.2*Math.min(over/14,1)));}
+function dueReviews(){return Object.entries(S.topics).filter(([id,t])=>t.next&&t.next<=today()).map(([id])=>({id,score:revScore(id)})).sort((a,b)=>b.score-a.score)}
+const prio=s=>s>=55?['alta','Alta']:s>=40?['media','Média']:['baixa','Baixa'];
+const dueErrors=()=>S.errors.filter(e=>!e.dom&&(!e.next||e.next<=today()));
+function applyReview(t,acc){
+  if(acc==null||acc>=85)t.stage=Math.min(t.stage+1,INT.length-1);
+  else if(acc<70)t.stage=0;
+  t.next=addDays(today(),INT[Math.max(t.stage,0)]);t.last=today();t.rev++;
+}
+function streak(){const days=new Set(S.sessions.map(s=>s.date));let n=0,d=today();
+  if(!days.has(d))d=addDays(d,-1);while(days.has(d)){n++;d=addDays(d,-1)}return n}
+function forecast(){const tot=Object.values(S.topics);const rest=tot.filter(t=>t.st!==2).length;
+  const perDay=S.config.horasDia*60*(1-S.config.reserva/100);const days=Math.ceil(rest*100/perDay);
+  return {rest,days,date:addDays(today(),days)}}
+
+/* ---------- UI helpers ---------- */
+const $=s=>document.querySelector(s);
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',2600)}
+function modal(title,html){$('#mTitle').textContent=title;$('#mBody').innerHTML=html;$('#modalBg').style.display='flex'}
+function closeModal(){$('#modalBg').style.display='none'}
+$('#modalBg').addEventListener('click',e=>{if(e.target.id==='modalBg')closeModal()});
+const discOpts=sel=>DISC.map(d=>`<option value="${d.k}" ${d.k===sel?'selected':''}>${d.n}</option>`).join('');
+const topicOpts=(k,sel)=>DM[k].t.map((n,i)=>`<option value="${k}-${i}" ${k+'-'+i===sel?'selected':''}>${i+1}. ${esc(n)}</option>`).join('');
+const stPill=st=>['<span class="pill p0">Não iniciado</span>','<span class="pill p1">Em estudo</span>','<span class="pill p2">Teoria concluída</span>'][st];
+const bar=(p,c)=>`<div class="bar"><i style="width:${Math.min(100,p||0)}%;${c?'background:'+c:''}"></i></div>`;
+const accColor=a=>a==null?'#bbb':a>=80?'#4c9a5a':a>=70?'#d9a441':'#d07a77';
+const fmtMin=m=>{m=Math.round(m);const h=Math.floor(m/60);return h?h+'h'+String(m%60).padStart(2,'0'):m+'min'};
+
+const IC={
+ home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+ timer:'<circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/><line x1="9" y1="2" x2="15" y2="2"/>',
+ ciclo:'<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
+ edital:'<line x1="9" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><polyline points="3 6 4.5 7.5 7 5"/><polyline points="3 12 4.5 13.5 7 11"/><polyline points="3 18 4.5 19.5 7 17"/>',
+ rev:'<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+ erros:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="10" y1="8" x2="16" y2="12"/><line x1="16" y1="8" x2="10" y2="12"/>',
+ desemp:'<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>',
+ metodo:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+ config:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+ mais:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>'};
+const ico=k=>`<svg class="ico" viewBox="0 0 24 24">${IC[k]}</svg>`;
+const TABS=[['home','Início'],['timer','Cronômetro'],['ciclo','Ciclo'],['edital','Edital'],['rev','Revisões'],['erros','Caderno de erros'],['desemp','Desempenho'],['metodo','Método'],['config','Configurações']];
+const TITLE=Object.fromEntries(TABS);
+const MAIS=['ciclo','erros','desemp','metodo','config'];
+function renderNav(){const nr=dueReviews().length,ne=dueErrors().length,tab=S.ui.tab;
+  const bd=k=>k==='rev'&&nr?`<span class="badge">${nr}</span>`:k==='erros'&&ne?`<span class="badge">${ne}</span>`:'';
+  $('#side').innerHTML=`<div class="brand"><div class="ic">PRF</div><div><b>PLANO PRF</b><small>Ciclo · Revisão · Erros</small></div></div>`+
+    TABS.map(([k,n])=>`<button class="it ${tab===k?'on':''}" onclick="go('${k}')">${ico(k)}<span>${n}</span>${bd(k)}</button>`).join('')+
+    `<div class="side-timer" id="sideTimer" onclick="go('timer')"></div>`;
+  const b=(k,n)=>`<button class="${tab===k?'on':''}" onclick="go('${k}')">${ico(k)}<span>${n}</span>${bd(k)}</button>`;
+  $('#bnav').innerHTML=b('home','Início')+b('edital','Edital')+
+    `<button class="fab ${tab==='timer'?'on':''}" onclick="go('timer')"><span class="fc">${ico('timer')}</span><span>Estudar</span></button>`+
+    b('rev','Revisões')+`<button class="${MAIS.includes(tab)?'on':''}" onclick="openSheet()">${ico('mais')}<span>Mais</span>${ne?`<span class="badge">${ne}</span>`:''}</button>`;
+  $('#pgTitle').textContent=TITLE[tab]||'';document.title=(TITLE[tab]||'')+' · Plano PRF';}
+function openSheet(){const ne=dueErrors().length;$('#sheet').innerHTML='<div class="grab"></div>'+MAIS.map(k=>`<button class="it" onclick="closeSheet();go('${k}')">${ico(k)}<span>${TITLE[k]}</span>${k==='erros'&&ne?`<span class="badge">${ne}</span>`:''}</button>`).join('');
+  $('#sheet').style.display='block';$('#sheetBg').style.display='block'}
+function closeSheet(){$('#sheet').style.display='none';$('#sheetBg').style.display='none'}
+function go(t){S.ui.tab=t;save();render();window.scrollTo(0,0)}
+function render(){renderNav();($('#app').innerHTML=V[S.ui.tab]());if(S.ui.tab==='timer')tick();}
+
+/* =================== VIEWS =================== */
+const V={};
+V.home=()=>{
+  const td=today();const ss=S.sessions.filter(s=>s.date===td);
+  const minH=ss.reduce((a,s)=>a+s.min,0),qH=ss.reduce((a,s)=>a+s.c+s.e,0),cH=ss.reduce((a,s)=>a+s.c,0);
+  let C=0,E=0;Object.values(S.topics).forEach(t=>{C+=t.c;E+=t.e});
+  const tt=Object.values(S.topics),done=tt.filter(t=>t.st===2).length;
+  const dr=dueReviews(),de=dueErrors(),fc=forecast();
+  const dp=S.config.dataProva?diffDays(S.config.dataProva,td):null;
+  const nd=nextDiscs(2);const revMin=Math.round(S.config.horasDia*60*S.config.reserva/100);
+  const studyMin=S.config.horasDia*60-revMin;
+  const plano=[
+    `<tr><td><b>1</b></td><td><span class="term">Revisões programadas</span> — ${dr.length?dr.slice(0,3).map(r=>esc(tName(r.id))).join('; ')+(dr.length>3?` (+${dr.length-3})`:''):'nenhuma vencida hoje: faça 10 questões de um tópico concluído'}</td><td>${fmtMin(Math.round(revMin*0.6))}</td><td>${dr.length?`<button class="btn sm" onclick="startFor('${dr[0].id}','revisao')">Iniciar</button>`:''}</td></tr>`,
+    ...nd.map((x,i)=>{const tp=nextTopic(x.k);return `<tr><td><b>${i+2}</b></td><td><span class="term">${DM[x.k].n}</span> — ${tp?esc(tName(tp)):'edital da disciplina concluído: só questões'}<div class="muted">Teoria curta → questões Cebraspe → anote os erros</div></td><td>${fmtMin(Math.min(Math.round(studyMin/2),Math.max(30,x.q-x.done)))}</td><td><button class="btn sm" onclick="startFor('${tp||x.k+'-0'}','estudo')">Iniciar</button></td></tr>`}),
+    `<tr><td><b>4</b></td><td><span class="term">Caderno de erros</span> — ${de.length} erro(s) para revisar hoje</td><td>${fmtMin(Math.round(revMin*0.4))}</td><td>${de.length?`<button class="btn sm" onclick="go('erros');setTimeout(startErrReview,50)">Revisar</button>`:''}</td></tr>`];
+  const h=new Date().getHours(),sau=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
+  const nx=nd[0],ntp=nextTopic(nx.k);
+  const dataLonga=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  return `
+  <div class="hero"><div class="s">${sau}! · ${dataLonga}</div>
+   <div class="h">Próximo no ciclo</div><div class="t">${DM[nx.k].n}</div><div class="tp">${ntp?esc(tName(ntp)):'Teoria concluída — só questões'}</div>
+   <div class="acts"><button class="btn white" onclick="startFor('${ntp||nx.k+'-0'}','estudo')">▶ Começar agora</button>${dr.length?`<button class="btn ghost" onclick="go('rev')">${dr.length} revisão(ões) vencida(s)</button>`:''}${de.length?`<button class="btn ghost" onclick="go('erros')">${de.length} erro(s) para revisar</button>`:''}</div></div>
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="kpi"><div class="l">Hoje</div><div class="v">${fmtMin(minH)}</div><div class="s">meta ${fmtMin(S.config.horasDia*60)}</div>${bar(100*minH/(S.config.horasDia*60))}</div>
+    <div class="kpi"><div class="l">Questões hoje</div><div class="v">${qH}</div><div class="s">meta ${S.config.metaQ} · ${pct(cH,qH-cH)??'—'}% acerto</div>${bar(100*qH/S.config.metaQ)}</div>
+    <div class="kpi"><div class="l">Acerto geral</div><div class="v">${pct(C,E)??'—'}${C+E?'%':''}</div><div class="s">${C+E} questões · líquido Cebraspe <b>${C-E}</b></div></div>
+    <div class="kpi"><div class="l">Edital concluído</div><div class="v">${Math.round(100*done/tt.length)}%</div><div class="s">${done}/${tt.length} tópicos</div>${bar(100*done/tt.length,'#4c9a5a')}</div>
+    <div class="kpi"><div class="l">Revisões vencidas</div><div class="v" style="color:${dr.length?'var(--verm)':'var(--azul)'}">${dr.length}</div><div class="s">${de.length} erro(s) no caderno</div></div>
+    <div class="kpi"><div class="l">Sequência</div><div class="v">${streak()} dia(s)</div><div class="s">ciclo nº ${S.cycle.n}</div></div>
+    <div class="kpi"><div class="l">Previsão para fechar o edital</div><div class="v" style="font-size:19px">${fc.rest?br(fc.date):'Concluído!'}</div><div class="s">${fc.rest} tópicos restantes · ~${fc.days} dias</div></div>
+    ${dp!=null?`<div class="kpi"><div class="l">Prova</div><div class="v">${dp} dias</div><div class="s">${br(S.config.dataProva)}</div></div>`:''}
+  </div>
+  <div class="card"><h2>Plano de hoje</h2><div class="bd">
+    <table><tr><th style="width:30px">#</th><th>Bloco</th><th style="width:80px">Tempo</th><th style="width:80px"></th></tr>${plano.join('')}</table>
+    <div class="tip"><b>Ordem pensada para a memória:</b> começar pela <span class="term">recuperação</span> (revisões) aquece a memória e aproveita o período em que você está mais descansado; o conteúdo novo vem no meio; o caderno de erros fecha o dia, perto do sono, que é quando a consolidação acontece.</div>
+  </div></div>
+  <div class="card"><h2>Dica do dia</h2><div class="bd met">${DICAS[new Date().getDate()%DICAS.length]}</div></div>`;
+};
+
+V.timer=()=>{
+  const T=S.timer;const k=T?.disc||nextDiscs(1)[0].k;const tp=T?.topic||nextTopic(k)||k+'-0';
+  return `<div class="card"><h2>Cronômetro de estudos</h2><div class="bd">
+   <div class="row">
+    <div><label>Disciplina</label><select id="tDisc" onchange="tSel()" ${T?.run?'disabled':''}>${discOpts(k)}</select></div>
+    <div style="flex:2"><label>Tópico</label><select id="tTop" onchange="tSel()" ${T?.run?'disabled':''}>${topicOpts(k,tp)}</select></div>
+   </div>
+   <div class="row" style="margin-top:10px">
+    <div><label>Tipo</label><select id="tTipo" onchange="tSel()">${[['estudo','Estudo (teoria + questões)'],['questoes','Só questões'],['revisao','Revisão programada']].map(([v,n])=>`<option value="${v}" ${(T?.tipo||'estudo')===v?'selected':''}>${n}</option>`).join('')}</select></div>
+    <div><label>Modo</label><select id="tMode" onchange="tSel()" ${T?.run?'disabled':''}><option value="pomo" ${(T?.mode||'pomo')==='pomo'?'selected':''}>Pomodoro (${S.config.foco}/${S.config.pausa})</option><option value="livre" ${T?.mode==='livre'?'selected':''}>Livre</option></select></div>
+   </div>
+   <div class="ring"><svg viewBox="0 0 240 240"><circle cx="120" cy="120" r="108" class="rbg"/><circle cx="120" cy="120" r="108" class="rfg" id="tRing"/></svg>
+    <div class="rin"><div class="phase" id="tPhase"></div><div class="timer-big" id="tBig">00:00</div></div></div>
+   <div class="muted" style="text-align:center" id="tInfo"></div>
+   <div style="display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap" id="tBtns"></div>
+   <div class="tip" style="margin-top:18px">Durante o foco: celular fora do alcance, uma única aba aberta. Na pausa: levante, beba água, olhe para longe — <span class="neg">não</span> use redes sociais (elas competem pela mesma atenção que você quer recuperar).</div>
+   <div style="text-align:center"><button class="btn sec sm" onclick="openSession()">Registrar sessão manualmente</button></div>
+  </div></div>`;
+};
+function tSel(){const k=$('#tDisc').value;const tt=$('#tTop');
+  if(!tt.value.startsWith(k+'-')){tt.innerHTML=topicOpts(k,nextTopic(k)||k+'-0')}
+  if(S.timer){S.timer.disc=k;S.timer.topic=tt.value;S.timer.tipo=$('#tTipo').value;if(!S.timer.run&&!S.timer.acc)S.timer.mode=$('#tMode').value;save()}}
+function startFor(id,tipo){const [k]=id.split('-');
+  if(S.timer&&(S.timer.run||S.timer.acc)){if(!confirm('Há um cronômetro em andamento. Substituir?'))return go('timer')}
+  S.timer={run:false,mode:'pomo',phase:'foco',acc:0,seg:null,base:0,pStart:null,disc:k,topic:id,tipo};save();go('timer');}
+function tStart(){
+  if(!S.timer)S.timer={run:false,mode:$('#tMode').value,phase:'foco',acc:0,seg:null,base:0,pStart:null};
+  const T=S.timer;T.disc=$('#tDisc').value;T.topic=$('#tTop').value;T.tipo=$('#tTipo').value;if(!T.acc)T.mode=$('#tMode').value;
+  T.run=true;if(T.phase==='foco')T.seg=Date.now();
+  if(T.mode==='pomo'&&'Notification'in window&&Notification.permission==='default')Notification.requestPermission();
+  try{AC()}catch(e){}save();render();}
+function focusMs(){const T=S.timer;if(!T)return 0;return T.acc+(T.run&&T.phase==='foco'&&T.seg?Date.now()-T.seg:0)}
+function tPause(){const T=S.timer;T.acc=focusMs();T.seg=null;T.run=false;save();render()}
+function tSkip(){const T=S.timer;T.phase='foco';T.base=T.acc;T.seg=T.run?Date.now():null;save();render()}
+function tStop(){const T=S.timer;if(!T)return;T.acc=focusMs();T.seg=null;T.run=false;save();
+  const min=Math.max(1,Math.round(T.acc/60000));openSession({disc:T.disc,topic:T.topic,tipo:T.tipo,min,fromTimer:1})}
+function tReset(){if(confirm('Descartar o tempo marcado?')){S.timer=null;save();render()}}
+let _ac;function AC(){_ac=_ac||new (window.AudioContext||window.webkitAudioContext)();return _ac}
+function beep(){try{const a=AC();[0,0.35,0.7].forEach(t=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=880;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.15,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.3);o.start(a.currentTime+t);o.stop(a.currentTime+t+.3)})}catch(e){}}
+function notify(m){beep();toast(m);try{if(Notification.permission==='granted')new Notification('Plano PRF',{body:m})}catch(e){}}
+const mmss=ms=>{const s=Math.max(0,Math.floor(ms/1000));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0')};
+function tick(){
+  const T=S.timer;const mini=$('#miniTimer');
+  if(T&&T.run&&T.mode==='pomo'){
+    if(T.phase==='foco'&&focusMs()-T.base>=S.config.foco*60000){T.acc=focusMs();T.seg=null;T.phase='pausa';T.pStart=Date.now();save();notify('Fim do bloco de foco! Pausa de '+S.config.pausa+' min.');if(S.ui.tab==='timer')render()}
+    else if(T.phase==='pausa'&&Date.now()-T.pStart>=S.config.pausa*60000){T.phase='foco';T.base=T.acc;T.seg=Date.now();save();notify('Pausa encerrada. Novo bloco de foco!');if(S.ui.tab==='timer')render()}
+  }
+  const st=$('#sideTimer');
+  if(T&&(T.run||T.acc)){const lbl=(T.phase==='pausa'?'☕ ':T.run?'● ':'❚❚ ')+mmss(focusMs());mini.style.display='inline';mini.textContent=lbl;
+    if(st){st.style.display='block';st.innerHTML=`<div class="muted">${T.phase==='pausa'?'Pausa':T.run?'Estudando':'Pausado'}</div><b style="color:var(--azul);font-size:20px;font-variant-numeric:tabular-nums">${mmss(focusMs())}</b><div class="muted" style="font-size:11.5px">${DM[T.disc]?.n||''}</div>`}}
+  else{mini.style.display='none';if(st)st.style.display='none'}
+  const ring=$('#tRing');if(ring){let f=0;if(T){if(T.mode==='pomo')f=T.phase==='foco'?(focusMs()-T.base)/(S.config.foco*60000):(Date.now()-T.pStart)/(S.config.pausa*60000);else f=(focusMs()%3600000)/3600000}
+    ring.style.strokeDashoffset=678.6*(1-Math.min(1,Math.max(0,f)));ring.style.stroke=T&&T.phase==='pausa'?'#2e7d32':'#003785'}
+  if(S.ui.tab!=='timer'||!$('#tBig'))return;
+  const big=$('#tBig'),ph=$('#tPhase'),info=$('#tInfo'),btns=$('#tBtns');
+  if(!T){big.textContent=S.config.foco?mmss(($('#tMode')?.value==='livre'?0:S.config.foco*60000)):'00:00';ph.innerHTML='';info.textContent='';
+    btns.innerHTML='<button class="btn" onclick="tStart()">▶ Iniciar</button>';return}
+  if(T.mode==='pomo'){
+    if(T.phase==='foco'){big.textContent=mmss(S.config.foco*60000-(focusMs()-T.base));ph.innerHTML='<span style="color:var(--azul)">FOCO</span>'}
+    else{big.textContent=mmss(S.config.pausa*60000-(Date.now()-T.pStart));ph.innerHTML='<span style="color:var(--verde)">PAUSA</span>'}
+    info.textContent='Tempo líquido de estudo: '+mmss(focusMs())+' · bloco nº '+(Math.floor(focusMs()/(S.config.foco*60000))+1);
+  }else{big.textContent=mmss(focusMs());ph.innerHTML=T.run?'<span style="color:var(--azul)">ESTUDANDO</span>':'PAUSADO';info.textContent=''}
+  btns.innerHTML=(T.run?(T.phase==='pausa'?'<button class="btn sec" onclick="tSkip()">Pular pausa</button>':'<button class="btn sec" onclick="tPause()">❚❚ Pausar</button>'):'<button class="btn" onclick="tStart()">▶ Continuar</button>')+
+   '<button class="btn ok" onclick="tStop()">■ Encerrar e registrar</button><button class="btn ko sm" onclick="tReset()">Descartar</button>';
+}
+setInterval(tick,1000);
+
+/* ---------- registrar sessão ---------- */
+function openSession(p={}){
+  const k=p.disc||nextDiscs(1)[0].k;const tp=p.topic||nextTopic(k)||k+'-0';const tipo=p.tipo||'estudo';
+  modal('REGISTRAR SESSÃO',`
+   <div class="row"><div><label>Data</label><input type="date" id="sDate" value="${today()}"></div><div><label>Minutos líquidos</label><input type="number" id="sMin" min="0" value="${p.min??50}"></div>
+   <div><label>Tipo</label><select id="sTipo">${[['estudo','Estudo'],['questoes','Só questões'],['revisao','Revisão programada']].map(([v,n])=>`<option value="${v}" ${tipo===v?'selected':''}>${n}</option>`).join('')}</select></div></div>
+   <div class="row" style="margin-top:10px"><div><label>Disciplina</label><select id="sDisc" onchange="document.getElementById('sTop').innerHTML=topicOpts(this.value,nextTopic(this.value)||this.value+'-0')">${discOpts(k)}</select></div></div>
+   <div style="margin-top:10px"><label>Tópico</label><select id="sTop">${topicOpts(k,tp)}</select></div>
+   <div class="row" style="margin-top:10px"><div><label>✔ Questões certas</label><input type="number" id="sC" min="0" value="0"></div><div><label>✘ Questões erradas</label><input type="number" id="sE" min="0" value="0"></div></div>
+   <div style="margin-top:12px"><label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="sDone" style="width:auto" ${S.topics[tp].st===2?'checked disabled':''}> Terminei a teoria deste tópico (entra na revisão espaçada: 1-7-15-30-60-120 dias)</label>
+   <label style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" id="sErr" style="width:auto" checked> Abrir o caderno de erros depois de salvar (se houver erros)</label></div>
+   <div class="muted" style="margin:8px 0">Revisão programada: ≥85% de acerto avança o intervalo; 70–84% repete o intervalo; &lt;70% volta para 1 dia.</div>
+   <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn sec" onclick="closeModal()">Cancelar</button><button class="btn ok" onclick="saveSession(${p.fromTimer?1:0})">Salvar</button></div>`);
+}
+function saveSession(fromTimer){
+  const s={id:uid(),date:$('#sDate').value||today(),min:Math.max(0,+$('#sMin').value||0),tipo:$('#sTipo').value,disc:$('#sDisc').value,topic:$('#sTop').value,c:Math.max(0,+$('#sC').value||0),e:Math.max(0,+$('#sE').value||0)};
+  const t=S.topics[s.topic];t.c+=s.c;t.e+=s.e;
+  if(s.tipo==='revisao'&&t.stage>=0){applyReview(t,pct(s.c,s.e))}
+  else{if(t.st===0)t.st=1;if($('#sDone').checked&&t.st!==2){t.st=2;t.stage=0;t.next=addDays(today(),1)}
+    S.cycle.done[s.disc]=(S.cycle.done[s.disc]||0)+s.min;checkCycle();}
+  S.sessions.push(s);if(fromTimer)S.timer=null;
+  const openErr=$('#sErr').checked&&s.e>0;save();closeModal();toast('Sessão registrada ✔');
+  if(openErr){S.ui.tab='erros';render();openError({disc:s.disc,topic:s.topic})}else render();
+}
+
+V.ciclo=()=>{
+  const o=cycleOrder();const tot=o.reduce((a,x)=>a+x.q,0),dn=o.reduce((a,x)=>a+Math.min(x.done,x.q),0);
+  const nx=nextDiscs(1)[0].k;
+  return `<div class="card"><h2>Ciclo de estudos nº ${S.cycle.n}</h2><div class="bd">
+   <p class="muted">Ciclo de ${fmtMin(tot)} (≈ ${S.config.diasCiclo} dias de ${S.config.horasDia}h, reservando ${S.config.reserva}% do dia para revisões). Você estuda as disciplinas <b>na ordem</b>; ao bater a cota de uma, segue para a próxima. Não importa o dia da semana: se faltar um dia, o ciclo simplesmente continua de onde parou.</p>
+   <div style="margin:10px 0">${bar(100*dn/tot,'#4c9a5a')}<div class="muted">${fmtMin(dn)} de ${fmtMin(tot)} cumpridos</div></div>
+   <table><tr><th>#</th><th>Disciplina</th><th class="hm">Itens na prova</th><th>Cota</th><th style="width:28%">Progresso no ciclo</th><th class="hm">Próximo tópico</th><th></th></tr>
+   ${o.map((x,i)=>{const d=DM[x.k],tp=nextTopic(x.k),st=dStats(x.k);return `<tr class="${x.k===nx?'prox':''}"><td>${i+1}</td><td><b>${d.n}</b><div class="muted">Bloco ${d.b} · acerto ${st.acc??'—'}${st.acc!=null?'%':''}</div></td><td class="hm">${d.w}</td><td>${fmtMin(x.q)}</td><td>${bar(100*x.done/x.q,x.done>=x.q?'#4c9a5a':'')}<div class="muted">${fmtMin(x.done)}${x.done>=x.q?' ✔':''}</div></td><td class="hm" style="font-size:12.5px">${tp?esc(tName(tp)):'<i>só questões/revisão</i>'}</td><td><button class="btn sm" onclick="startFor('${tp||x.k+'-0'}','estudo')">Estudar</button></td></tr>`}).join('')}
+   </table>
+   <div class="tip"><b>Ciclo adaptativo:</b> a cota parte do peso de cada disciplina na prova e se ajusta ao seu desempenho (com 10+ questões): acerto <span class="neg">abaixo de 60%</span> recebe +35% de tempo; 60–74%, +15%; 85% ou mais, −20%. Disciplina com teoria toda concluída fica com cota reduzida (só questões).</div>
+   <div class="tip"><b>Por que essa ordem?</b> ela <span class="term">intercala</span> tipos de conteúdo (linguagem → lei → cálculo → lei…). Alternar assuntos dá a sensação de render menos, mas a pesquisa sobre <span class="term">prática intercalada</span> mostra retenção maior do que estudar uma matéria em bloco.</div>
+   <button class="btn sec sm" onclick="if(confirm('Zerar o progresso do ciclo atual?')){S.cycle.done={};save();render()}">Reiniciar ciclo atual</button>
+  </div></div>`;
+};
+
+V.edital=()=>{
+  const q=(S.ui.q||'').toLowerCase();
+  return `<div class="card"><h2>Edital verticalizado</h2><div class="bd">
+  <div class="row"><div><input placeholder="Buscar tópico…" value="${esc(S.ui.q||'')}" oninput="S.ui.q=this.value;clearTimeout(window._qh);window._qh=setTimeout(()=>{render();const i=document.querySelector('main input');i.focus();i.setSelectionRange(i.value.length,i.value.length)},300)"></div>
+  <div style="flex:0"><button class="btn sec sm" onclick="DISC.forEach(d=>S.ui.open[d.k]=1);save();render()">Expandir tudo</button></div></div>
+  <div class="tip"><b>Modo Diagnóstico</b> — para matérias em que você já tem base: faça <b>15–20 questões Cebraspe por tópico, sem estudar antes</b>, e lance tudo de uma vez no botão <span class="term">Diagnóstico</span> da disciplina. Regra: <span class="hl">≥85%</span> → teoria concluída e 1ª revisão em 7 dias; <span class="hl">80–84%</span> → teoria concluída e revisão amanhã; <span class="neg">&lt;80%</span> → fica "Em estudo" e o ciclo te leva até ele. Tópicos com <span class="neg">menos de 10</span> questões só registram o desempenho.</div>
+  <p class="muted">Clique no status para alternar: Não iniciado → Em estudo → Teoria concluída. Os tópicos marcados com ★ vieram consolidados da sua preparação anterior e já entram como revisão.<br><b>Leis extensas</b> (CTB, Licitações, Lei 8.112, ECA, Lei de Drogas) estão divididas por <span class="term">capítulo/título</span>, sem quebrar a estrutura da lei. Capítulos marcados como <i>extenso</i> podem levar várias sessões: deixe em "Em estudo" e só marque "Teoria concluída" quando terminar o capítulo inteiro — o ciclo sempre retoma o tópico em andamento. A numeração de artigos serve de guia; confira no seu vade mecum.<br>Fora deste plano (por enquanto): Física, Ética e Cidadania, Geopolítica, Língua Estrangeira e Resoluções do CONTRAN.</p></div>
+  ${DISC.map(d=>{const st=dStats(d.k);const open=S.ui.open[d.k]||q;
+    const rows=d.t.map((n,i)=>{const id=d.k+'-'+i,t=S.topics[id];if(q&&!n.toLowerCase().includes(q))return '';const a=pct(t.c,t.e);
+      return `<tr><td>${i+1}</td><td>${t.base?'★ ':''}${t.diag&&t.st===2?'<span class="pill p2" title="Aprovado no diagnóstico">D</span> ':''}${t.diag&&t.st===1?'<span class="pill alta" title="Ponto fraco no diagnóstico">D</span> ':''}${esc(n)}</td><td style="cursor:pointer" onclick="cycleSt('${id}')">${stPill(t.st)}</td><td class="hm">${t.c}/${t.e}</td><td style="color:${accColor(a)};font-weight:700">${a??'—'}${a!=null?'%':''}</td><td class="hm">${t.next?br(t.next):'—'}</td><td style="white-space:nowrap"><button class="btn sm" onclick="startFor('${id}','estudo')">▶</button> <button class="btn sec sm" onclick="openSession({disc:'${d.k}',topic:'${id}',tipo:'questoes',min:30})">+Q</button></td></tr>`}).join('');
+    if(q&&!rows)return '';
+    return `<div class="disc-h" onclick="S.ui.open['${d.k}']=!S.ui.open['${d.k}'];save();render()"><span>${open?'▾':'▸'}</span><b>${d.n}</b><span class="muted">Bloco ${d.b} · ${d.w} itens · ${st.done}/${st.tot} · acerto ${st.acc??'—'}${st.acc!=null?'%':''}</span><span style="margin-left:auto"></span>${st.done<st.tot?`<button class="btn sec sm" onclick="event.stopPropagation();openDiag('${d.k}')">Diagnóstico</button>`:''}${bar(100*st.done/st.tot,'#4c9a5a')}</div>
+    ${open?`<div style="padding:0 0 4px"><table><tr><th>#</th><th>Tópico</th><th>Status</th><th class="hm">C/E</th><th>%</th><th class="hm">Próx. revisão</th><th></th></tr>${rows}</table></div>`:''}`}).join('')}
+  </div>`;
+};
+function openDiag(k){const d=DM[k];const ids=d.t.map((_,i)=>k+'-'+i).filter(id=>S.topics[id].st!==2);
+  modal('DIAGNÓSTICO · '+d.n.toUpperCase(),`<p class="muted" style="margin-top:0">Lance as questões que fez em cada tópico (sem estudar antes). Deixe em branco o que não testou.</p>
+   <table><tr><th>Tópico</th><th style="width:70px">✔ C</th><th style="width:70px">✘ E</th></tr>
+   ${ids.map(id=>`<tr><td style="font-size:12.5px">${esc(tName(id))}</td><td><input type="number" min="0" data-dc="${id}"></td><td><input type="number" min="0" data-de="${id}"></td></tr>`).join('')}</table>
+   <div class="row" style="margin-top:10px"><div><label>Tempo total gasto (min)</label><input type="number" min="0" id="dMin" value="0"></div></div>
+   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button class="btn sec" onclick="closeModal()">Cancelar</button><button class="btn ok" onclick="saveDiag('${k}')">Aplicar diagnóstico</button></div>`)}
+function saveDiag(k){
+  const rows=[...document.querySelectorAll('[data-dc]')].map(i=>({id:i.dataset.dc,c:Math.max(0,+i.value||0),e:Math.max(0,+document.querySelector(`[data-de="${i.dataset.dc}"]`).value||0)})).filter(r=>r.c+r.e>0);
+  if(!rows.length){toast('Nenhuma questão lançada');return}
+  const tq=rows.reduce((a,r)=>a+r.c+r.e,0),totMin=Math.max(0,+$('#dMin').value||0);const res={ok:[],fraco:[],pouco:[]};
+  rows.forEach(r=>{const t=S.topics[r.id];t.c+=r.c;t.e+=r.e;const a=pct(r.c,r.e),n=r.c+r.e;
+    if(n<10){res.pouco.push([r.id,a]);if(t.st===0)t.st=1}
+    else if(a>=80){t.st=2;t.stage=a>=85?1:0;t.next=addDays(today(),INT[t.stage]);t.diag=1;res.ok.push([r.id,a])}
+    else{t.st=1;t.diag=1;res.fraco.push([r.id,a])}
+    S.sessions.push({id:uid(),date:today(),min:Math.round(totMin*n/tq),tipo:'diagnostico',disc:k,topic:r.id,c:r.c,e:r.e});});
+  if(totMin){S.cycle.done[k]=(S.cycle.done[k]||0)+totMin;checkCycle()}
+  save();render();
+  const li=(arr,cor)=>arr.map(([id,a])=>`<li>${esc(tName(id))} — <b style="color:${cor}">${a}%</b></li>`).join('');
+  modal('RESULTADO DO DIAGNÓSTICO',`${res.ok.length?`<p><b style="color:var(--verde)">✔ Concluídos — vão direto para revisão (${res.ok.length}):</b></p><ul>${li(res.ok,'var(--verde)')}</ul>`:''}
+   ${res.fraco.length?`<p><b style="color:var(--verm)">Revisar teoria (abaixo de 80%):</b></p><ul>${li(res.fraco,'var(--verm)')}</ul><p class="muted">Dica: estude só o ponto fraco — cadastre os erros no caderno para ver exatamente o que falhou.</p>`:''}
+   ${res.pouco.length?`<p><b>Poucas questões (menos de 10) — faça mais para decidir:</b></p><ul>${li(res.pouco,'#555')}</ul>`:''}
+   <div style="text-align:right"><button class="btn" onclick="closeModal()">OK</button></div>`);
+}
+function cycleSt(id){const t=S.topics[id];t.st=(t.st+1)%3;
+  if(t.st===2){t.stage=0;t.next=addDays(today(),1)}else if(t.st===0){t.stage=-1;t.next=null}
+  else{t.stage=-1;t.next=null}save();render()}
+
+V.rev=()=>{
+  const dr=dueReviews();const fut=Object.entries(S.topics).filter(([,t])=>t.next&&t.next>today()&&diffDays(t.next,today())<=7).sort((a,b)=>a[1].next.localeCompare(b[1].next));
+  const row=(id,score)=>{const t=S.topics[id],[k]=id.split('-'),a=pct(t.c,t.e),p=prio(score);
+    return `<tr><td>${score!=null?`<span class="pill ${p[0]}">${p[1]} · ${score}</span>`:''}</td><td><b>${DM[k].n}</b><div>${esc(tName(id))}</div></td><td>${br(t.next)}${t.next<today()?` <span class="neg">(${diffDays(today(),t.next)}d atraso)</span>`:''}</td><td>${['1d','7d','15d','30d','60d','120d'][Math.max(0,t.stage)]}</td><td style="color:${accColor(a)};font-weight:700">${a??'—'}${a!=null?'%':''}</td><td style="white-space:nowrap"><button class="btn sm" onclick="startFor('${id}','revisao')">▶ Revisar</button> <button class="btn sec sm" onclick="openSession({disc:'${k}',topic:'${id}',tipo:'revisao',min:20})">Registrar</button></td></tr>`};
+  return `<div class="card"><h2>Revisões de hoje (por prioridade)</h2><div class="bd">
+   ${dr.length?`<table><tr><th>Prioridade</th><th>Tópico</th><th>Data</th><th>Etapa</th><th>Acerto</th><th></th></tr>${dr.map(r=>row(r.id,r.score)).join('')}</table>`:'<p>Nenhuma revisão vencida. 🎉</p>'}
+   <div class="tip"><b>Como revisar (≈20 min por tópico):</b> 1) <span class="term">sem olhar o material</span>, escreva/fale o que lembra do tópico (2–3 min); 2) confira no resumo/mapa e marque o que faltou; 3) faça 10–20 questões Cebraspe; 4) registre C/E — o app decide o próximo intervalo.<br>
+   <b>Prioridade</b> = 40% peso da disciplina na prova + 40% taxa de erro do tópico + 20% dias de atraso.</div>
+  </div></div>
+  <div class="card"><h2>Próximos 7 dias</h2><div class="bd">${fut.length?`<table><tr><th></th><th>Tópico</th><th>Data</th><th>Etapa</th><th>Acerto</th><th></th></tr>${fut.map(([id])=>row(id,null)).join('')}</table>`:'<p class="muted">Nada agendado.</p>'}</div></div>
+  ${weakTopics()}`;
+};
+function weakTopics(){const w=Object.entries(S.topics).filter(([,t])=>t.c+t.e>=10&&pct(t.c,t.e)<70).sort((a,b)=>pct(a[1].c,a[1].e)-pct(b[1].c,b[1].e)).slice(0,10);
+  return `<div class="card"><h2>Pontos fracos (≥10 questões e &lt;70%)</h2><div class="bd">${w.length?w.map(([id,t])=>`<div class="hbar"><div class="n">${esc(tName(id))}</div><div class="t"><i style="width:${pct(t.c,t.e)}%;background:${accColor(pct(t.c,t.e))}"></i></div><div class="p">${pct(t.c,t.e)}% <button class="btn sm" onclick="startFor('${id}','questoes')">▶</button></div></div>`).join(''):'<p class="muted">Nenhum ainda — os tópicos aparecem aqui quando você tiver 10+ questões neles.</p>'}</div></div>`}
+
+/* ---------- caderno de erros ---------- */
+const TIPOS_ERRO=['Não sabia o conteúdo','Confundi conceitos parecidos','Pegadinha de palavra (só, sempre, pode/deve…)','Interpretação / extrapolei o texto','Desatenção / li rápido','Chute'];
+V.erros=()=>{
+  const f=S.ui.ef||'';const ft=S.ui.eft||'';
+  let list=S.errors.filter(e=>(!f||e.disc===f)&&(!ft||e.tipo===ft)&&(S.ui.edom||!e.dom)).sort((a,b)=>(a.next||'').localeCompare(b.next||''));
+  const de=dueErrors().length;const byT={};S.errors.filter(e=>!e.dom).forEach(e=>byT[e.tipo]=(byT[e.tipo]||0)+1);
+  return `<div class="card"><h2>Caderno de erros</h2><div class="bd">
+   <div class="row"><div style="flex:0 0 auto"><button class="btn" onclick="openError()">+ Novo erro</button></div><div style="flex:0 0 auto"><button class="btn ok" ${de?'':'disabled'} onclick="startErrReview()">▶ Revisar erros de hoje (${de})</button></div>
+   <div><select onchange="S.ui.ef=this.value;save();render()"><option value="">Todas as disciplinas</option>${discOpts(f)}</select></div>
+   <div><select onchange="S.ui.eft=this.value;save();render()"><option value="">Todos os tipos de erro</option>${TIPOS_ERRO.map(t=>`<option ${ft===t?'selected':''}>${t}</option>`).join('')}</select></div>
+   <div style="flex:0 0 auto"><label style="font-weight:400;display:flex;gap:6px;align-items:center"><input type="checkbox" style="width:auto" ${S.ui.edom?'checked':''} onchange="S.ui.edom=this.checked;save();render()"> mostrar dominados</label></div></div>
+   ${Object.keys(byT).length?`<div style="margin-top:12px"><b style="font-size:12.5px">Por que você erra (erros ativos):</b>${Object.entries(byT).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<div class="hbar"><div class="n">${t}</div><div class="t"><i style="width:${100*n/Math.max(...Object.values(byT))}%;background:#d07a77"></i></div><div class="p">${n}</div></div>`).join('')}</div>`:''}
+   <div class="tip">Cada erro volta em 1 → 3 → 7 → 15 → 30 dias. Acertou <b>3 vezes seguidas</b> = <span class="term">dominado</span> (sai da fila). Errou de novo = volta para 1 dia. Escreva sempre a <span class="hl">regra correta</span> com suas palavras — é isso que você vai reler na véspera da prova.</div>
+   ${list.length?`<table><tr><th>Disciplina / tópico</th><th>Afirmação</th><th>Gab.</th><th>Tipo</th><th>Próx.</th><th></th></tr>${list.map(e=>`<tr${e.dom?' style="opacity:.55"':''}><td style="font-size:12px"><b>${DM[e.disc]?.n||''}</b><br>${esc(tName(e.topic))}</td><td style="font-size:12.5px">${esc(e.txt).slice(0,160)}${e.txt.length>160?'…':''}</td><td><b>${e.gab}</b></td><td style="font-size:12px">${esc(e.tipo)}</td><td>${e.dom?'✔ dominado':br(e.next)}<div class="muted">seq. ${e.seq||0}/3</div></td><td style="white-space:nowrap"><button class="btn sec sm" onclick="openError({id:'${e.id}'})">Editar</button> <button class="btn ko sm" onclick="delErr('${e.id}')">✕</button></td></tr>`).join('')}</table>`:'<p class="muted">Nenhum erro cadastrado com esse filtro.</p>'}
+  </div></div>`;
+};
+function openError(p={}){const e=p.id?S.errors.find(x=>x.id===p.id):null;const k=e?.disc||p.disc||'por';const tp=e?.topic||p.topic||k+'-0';
+  modal(e?'EDITAR ERRO':'NOVO ERRO NO CADERNO',`
+   <div class="row"><div><label>Disciplina</label><select id="eDisc" onchange="document.getElementById('eTop').innerHTML=topicOpts(this.value,this.value+'-0')">${discOpts(k)}</select></div></div>
+   <div style="margin-top:8px"><label>Tópico</label><select id="eTop">${topicOpts(k,tp)}</select></div>
+   <div style="margin-top:8px"><label>Afirmação da questão (cole o item)</label><textarea id="eTxt">${esc(e?.txt||'')}</textarea></div>
+   <div class="row" style="margin-top:8px"><div><label>Gabarito</label><select id="eGab"><option ${e?.gab==='C'?'selected':''}>C</option><option ${e?.gab==='E'?'selected':''}>E</option></select></div>
+   <div style="flex:2"><label>Por que errei</label><select id="eTipo">${TIPOS_ERRO.map(t=>`<option ${e?.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div></div>
+   <div style="margin-top:8px"><label>Regra correta / explicação (com suas palavras)</label><textarea id="eExp">${esc(e?.exp||'')}</textarea></div>
+   <div style="margin-top:8px"><label>Fonte (opcional — ex.: TEC Q123456, PRF 2021)</label><input id="eFonte" value="${esc(e?.fonte||'')}"></div>
+   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button class="btn sec" onclick="closeModal()">Fechar</button>${e?'':'<button class="btn sec" onclick="saveError(1)">Salvar e adicionar outro</button>'}<button class="btn ok" onclick="saveError(0,\'${e?.id||''}\')">Salvar</button></div>`)}
+function saveError(again,id){const txt=$('#eTxt').value.trim();if(!txt){toast('Cole a afirmação da questão');return}
+  const o={disc:$('#eDisc').value,topic:$('#eTop').value,txt,gab:$('#eGab').value,tipo:$('#eTipo').value,exp:$('#eExp').value.trim(),fonte:$('#eFonte').value.trim()};
+  if(id){Object.assign(S.errors.find(x=>x.id===id),o)}else S.errors.push({id:uid(),...o,created:today(),next:addDays(today(),1),stage:0,seq:0,dom:false,hist:[]});
+  save();toast('Erro salvo ✔');if(again){openError({disc:o.disc,topic:o.topic})}else{closeModal();render()}}
+function delErr(id){if(confirm('Excluir este erro?')){S.errors=S.errors.filter(e=>e.id!==id);save();render()}}
+let RQ=[];
+function startErrReview(){RQ=dueErrors().sort(()=>Math.random()-.5).map(e=>e.id);if(!RQ.length){toast('Nada para revisar hoje');return}showCard()}
+function showCard(){if(!RQ.length){closeModal();toast('Revisão do caderno concluída ✔');render();return}
+  const e=S.errors.find(x=>x.id===RQ[0]);
+  modal(`REVISÃO DE ERROS · faltam ${RQ.length}`,`<div class="muted">${DM[e.disc].n} · ${esc(tName(e.topic))}</div>
+   <div class="flash" style="margin:10px 0">${esc(e.txt)}</div>
+   <p style="text-align:center"><b>Julgue o item:</b></p>
+   <div style="display:flex;gap:12px;justify-content:center"><button class="btn ok" style="padding:10px 30px" onclick="answer('C')">CERTO</button><button class="btn ko" style="padding:10px 30px" onclick="answer('E')">ERRADO</button></div><div id="ansBox"></div>`)}
+function answer(r){const e=S.errors.find(x=>x.id===RQ[0]);const ok=r===e.gab;
+  e.hist=e.hist||[];e.hist.push({d:today(),ok});
+  if(ok){e.seq=(e.seq||0)+1;e.stage=Math.min((e.stage||0)+1,INT_ERR.length-1);if(e.seq>=3)e.dom=true}else{e.seq=0;e.stage=0}
+  e.next=addDays(today(),INT_ERR[ok?e.stage:0]);save();
+  $('#ansBox').innerHTML=`<div class="tip" style="background:${ok?'var(--verdeClaro)':'var(--vermClaro)'};border-color:${ok?'var(--verde)':'var(--verm)'}"><b>${ok?'Acertou!':'Errou de novo.'}</b> Gabarito: <b>${e.gab}</b>${e.dom?' — <b>dominado</b> 🎉':''}<br>${e.exp?'<b>Regra:</b> '+esc(e.exp):'<i>Sem explicação cadastrada — vale escrever uma.</i>'}${e.fonte?`<div class="muted">${esc(e.fonte)}</div>`:''}</div>
+  <div style="text-align:right"><button class="btn" onclick="RQ.shift();showCard()">Próximo →</button></div>`;
+  document.querySelectorAll('.modal .btn.ok,.modal .btn.ko').forEach(b=>b.disabled=true)}
+
+V.desemp=()=>{
+  const rows=DISC.map(d=>({d,s:dStats(d.k)}));let C=0,E=0,M=0;rows.forEach(r=>{C+=r.s.c;E+=r.s.e;M+=r.s.min});
+  const days=[...Array(14)].map((_,i)=>addDays(today(),i-13));const mins=days.map(d=>S.sessions.filter(s=>s.date===d).reduce((a,s)=>a+s.min,0));const mx=Math.max(60,...mins);
+  const ss=[...S.sessions].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,40);
+  return `<div class="card"><h2>Desempenho por disciplina</h2><div class="bd">
+   <table><tr><th>Disciplina</th><th>Tempo</th><th>Questões</th><th>Certas</th><th>Erradas</th><th>% acerto</th><th>Líquido (C−E)</th><th>Teoria</th></tr>
+   ${rows.map(({d,s})=>`<tr><td><b>${d.n}</b></td><td>${fmtMin(s.min)}</td><td>${s.c+s.e}</td><td>${s.c}</td><td>${s.e}</td><td style="color:${accColor(s.acc)};font-weight:700">${s.acc??'—'}${s.acc!=null?'%':''}</td><td>${s.net}</td><td>${s.done}/${s.tot}</td></tr>`).join('')}
+   <tr style="font-weight:700"><td>Total</td><td>${fmtMin(M)}</td><td>${C+E}</td><td>${C}</td><td>${E}</td><td>${pct(C,E)??'—'}${C+E?'%':''}</td><td>${C-E}</td><td></td></tr></table>
+   <h4 style="color:var(--azul);margin:18px 0 6px">% de acerto (linha = 80%)</h4>
+   ${rows.map(({d,s})=>`<div class="hbar"><div class="n">${d.n}</div><div class="t"><i style="width:${s.acc||0}%;background:${accColor(s.acc)}"></i><span class="m" style="left:80%"></span></div><div class="p">${s.acc??'—'}${s.acc!=null?'%':''}</div></div>`).join('')}
+   <div class="tip">No Cebraspe <span class="neg">cada item errado anula um certo</span>. Por isso o número que importa é o <span class="term">líquido</span> (certas − erradas). Com 80% de acerto respondendo tudo, você leva 60% da nota; com 90%, leva 80%. Busque <span class="hl">80%+ em todas as disciplinas</span> antes da prova.</div>
+  </div></div>
+  <div class="card"><h2>Minutos estudados — últimos 14 dias</h2><div class="bd">
+   <div class="chart">${mins.map((m,i)=>`<div class="c" title="${br(days[i])}: ${fmtMin(m)}"><span style="font-size:10px">${m?fmtMin(m):''}</span><i style="height:${100*m/mx}%"></i><span>${days[i].slice(8)}/${days[i].slice(5,7)}</span></div>`).join('')}</div>
+  </div></div>
+  <div class="card"><h2>Histórico de sessões</h2><div class="bd">${ss.length?`<table><tr><th>Data</th><th>Tipo</th><th>Disciplina / tópico</th><th>Tempo</th><th>C/E</th><th></th></tr>${ss.map(s=>`<tr><td>${br(s.date)}</td><td>${{estudo:'Estudo',questoes:'Questões',revisao:'Revisão',diagnostico:'Diagnóstico'}[s.tipo]}</td><td style="font-size:12.5px"><b>${DM[s.disc]?.n}</b><br>${esc(tName(s.topic))}</td><td>${fmtMin(s.min)}</td><td>${s.c}/${s.e}</td><td><button class="btn ko sm" onclick="delSess('${s.id}')">✕</button></td></tr>`).join('')}</table>`:'<p class="muted">Nenhuma sessão ainda.</p>'}</div></div>`;
+};
+function delSess(id){const s=S.sessions.find(x=>x.id===id);if(!s||!confirm('Excluir esta sessão? (as questões dela saem do tópico)'))return;
+  const t=S.topics[s.topic];if(t){t.c=Math.max(0,t.c-s.c);t.e=Math.max(0,t.e-s.e)}
+  if(s.tipo!=='revisao'&&S.cycle.done[s.disc])S.cycle.done[s.disc]=Math.max(0,S.cycle.done[s.disc]-s.min);
+  S.sessions=S.sessions.filter(x=>x.id!==id);save();render()}
+
+/* ---------- método ---------- */
+const DICAS=[
+ '<p><span class="term">Efeito de testagem:</span> tentar lembrar (questões, folha em branco) fixa mais do que reler. Se for escolher entre reler o resumo e fazer 20 questões, <span class="hl">faça as questões</span>.</p>',
+ '<p><span class="term">Ilusão de fluência:</span> grifar e reler dá sensação de domínio porque o texto parece familiar — mas reconhecer <span class="neg">não</span> é lembrar. Teste-se sempre de livro fechado.</p>',
+ '<p><span class="term">Hipercorreção:</span> erros cometidos com muita confiança, quando corrigidos, tendem a ser lembrados melhor. Questão que você tinha certeza e errou vai <span class="hl">direto pro caderno de erros</span>.</p>',
+ '<p><span class="term">Sono:</span> a consolidação da memória acontece em boa parte durante o sono. Cortar sono para estudar mais costuma sair caro — proteja <span class="hl">7 a 9 horas</span>.</p>',
+ '<p><span class="term">Exercício aeróbico</span> melhora atenção e memória — e você vai precisar do condicionamento para o TAF de qualquer jeito. Treinar antes de estudar é uma ótima combinação.</p>',
+ '<p><span class="term">Elaboração:</span> pergunte "por quê?" e "qual a diferença para X?". Explicar com suas palavras cria mais ganchos na memória do que repetir a letra da lei.</p>',
+ '<p><span class="term">Cebraspe:</span> errar custa um acerto. Só marque quando tiver uma razão concreta; dúvida entre 50/50 é melhor deixar em branco.</p>'];
+V.metodo=()=>`<div class="card"><h2>O método por trás do plano</h2><div class="bd met">
+ <h4>1. Ciclo de estudos + intercalação</h4>
+ <p>Em vez de uma grade fixa por dia da semana, você segue uma <span class="term">fila de disciplinas</span> com cotas de tempo proporcionais ao peso na prova. Alternar matérias (<span class="term">prática intercalada</span>) obriga o cérebro a "trocar de chave", o que fortalece a discriminação entre assuntos — exatamente o que a prova cobra quando mistura temas.</p>
+ <h4>2. Recuperação ativa (efeito de testagem)</h4>
+ <p>A memória se fortalece quando você <span class="hl">puxa a informação de volta</span>, e não quando a coloca de novo para dentro. Por isso cada bloco termina em questões e cada revisão começa com uma "folha em branco" (escrever o que lembra antes de olhar).</p>
+ <h4>3. Revisão espaçada</h4>
+ <p>A curva do esquecimento cai rápido nas primeiras horas e dias. Revisar em intervalos crescentes — <span class="neg">1, 7, 15, 30, 60 e 120 dias</span> — segura o conteúdo com o mínimo de tempo. O app ajusta o intervalo pelo seu acerto: ≥85% avança, 70–84% repete, <span class="neg">&lt;70%</span> volta ao início.</p>
+ <h4>4. Atenção em blocos</h4>
+ <p>Foco sustentado cai depois de algum tempo. Blocos de <span class="neg">50 min</span> com <span class="neg">10 min</span> de pausa (ou 25/5 nos dias ruins) mantêm a qualidade. Pausa de verdade: sem tela.</p>
+ <h4>5. Caderno de erros (metacognição)</h4>
+ <p>Classificar <span class="term">por que</span> errou mostra o seu padrão: se a maioria é "pegadinha de palavra", o problema é leitura do item, não conteúdo. A regra escrita com suas palavras vira o material de véspera.</p>
+ <h4>6. Sono e corpo</h4>
+ <p>Sono regular, exercício e pausas não são "tempo perdido" — são parte do processo de consolidação. Estudar cansado gera horas com pouca retenção.</p>
+
+ <h4>Rotina diária sugerida (${S.config.horasDia}h)</h4>
+ <table><tr><th style="width:28%">Bloco</th><th>O que fazer</th></tr>
+ <tr><td style="border:2px solid #e8a9a7;font-weight:700">Revisões (${Math.round(S.config.reserva*0.6)}%)</td><td style="border:2px solid #e8a9a7">Revisões vencidas, por prioridade. Folha em branco → conferir → questões.</td></tr>
+ <tr><td style="border:2px solid #e8a9a7;font-weight:700">Ciclo — bloco 1</td><td style="border:2px solid #e8a9a7">Próxima disciplina do ciclo. Teoria objetiva (PDF/vídeo em velocidade alta) e <span class="hl">questões logo em seguida</span>.</td></tr>
+ <tr><td style="border:2px solid #e8a9a7;font-weight:700">Ciclo — bloco 2</td><td style="border:2px solid #e8a9a7">Outra disciplina (intercalar). Mesma lógica.</td></tr>
+ <tr><td style="border:2px solid #e8a9a7;font-weight:700">Caderno de erros (${Math.round(S.config.reserva*0.4)}%)</td><td style="border:2px solid #e8a9a7">Revisar os erros do dia + cadastrar os novos.</td></tr></table>
+
+ <h4>Estratégia Cebraspe (certo/errado)</h4>
+ <ul>
+  <li>Prova de <b>120 itens</b>: Bloco I 55, Bloco II 30, Bloco III 35. <span class="neg">Cada errado anula um certo.</span></li>
+  <li>Mínimos para não ser eliminado: Bloco I <span class="neg">15</span> pontos, Bloco II <span class="neg">10</span>, Bloco III <span class="neg">10</span> e <span class="neg">50</span> no total — isso é só a eliminação; a classificação exige muito mais.</li>
+  <li>Em simulados, anote também os itens deixados em branco: o objetivo é aumentar o líquido, não o número de marcações.</li>
+ </ul>
+
+ <h4>Método rápido para diferenciar na prova</h4>
+ <p><b>Item de lei (C/E) — perguntas em sequência:</b></p>
+ <ol>
+  <li>Tem palavra absoluta (<span class="neg">sempre, nunca, somente, exclusivamente, em nenhuma hipótese</span>)? → procure a exceção.</li>
+  <li>Trocou <span class="term">pode</span> por <span class="term">deve</span> (faculdade × obrigação)?</li>
+  <li>Trocou <span class="term">quem</span> (União × estados, delegado × juiz, PRF × PF)?</li>
+  <li>Trocou <span class="neg">prazo, número ou quantidade</span>?</li>
+  <li>Nada disso? Então o item provavelmente cobra o conceito puro — julgue pelo conceito.</li>
+ </ol>
+ <p><b>Interpretação de texto:</b> o item está <span class="hl">no texto</span> ou é só verdade no mundo? Cebraspe considera errado o que extrapola o texto, mesmo sendo verdade. Item incompleto, em geral, <span class="neg">não</span> é motivo para errado.</p>
+ <p><b>Descentralização × desconcentração:</b> criou <span class="term">nova pessoa jurídica</span>? Sim → descentralização. Não, só distribuiu dentro da mesma pessoa → desconcentração.</p>
+ <p><b>Erro de tipo × erro de proibição:</b> o agente sabia <span class="term">o que</span> estava fazendo? <span class="neg">Não</span> → erro de tipo. Sabia, mas achava que era <span class="term">permitido</span> → erro de proibição.</p>
+ <p><b>Flagrante (art. 302 CPP):</b> está cometendo ou acabou de cometer → <span class="term">próprio</span>; perseguido logo após → <span class="term">impróprio</span>; encontrado logo depois com objetos que façam presumir → <span class="term">presumido</span>.</p>
+ <p><b>Crime × infração administrativa no CTB:</b> o artigo está no capítulo de <span class="term">crimes de trânsito</span> (pena de detenção) ou de <span class="term">infrações</span> (multa e pontos)? A mesma conduta pode estar nos dois, como embriaguez ao volante.</p>
+</div></div>`;
+
+V.config=()=>{const c=S.config;return `<div class="card"><h2>Configurações</h2><div class="bd">
+ <div class="row"><div><label>Horas líquidas por dia</label><input type="number" step="0.5" min="0.5" id="cH" value="${c.horasDia}"></div>
+ <div><label>% do dia para revisões</label><input type="number" min="0" max="60" id="cR" value="${c.reserva}"></div>
+ <div><label>Dias por ciclo</label><input type="number" min="1" max="30" id="cD" value="${c.diasCiclo}"></div></div>
+ <div class="row" style="margin-top:10px"><div><label>Pomodoro — foco (min)</label><input type="number" min="5" id="cF" value="${c.foco}"></div>
+ <div><label>Pomodoro — pausa (min)</label><input type="number" min="1" id="cP" value="${c.pausa}"></div>
+ <div><label>Meta de questões/dia</label><input type="number" min="0" id="cQ" value="${c.metaQ}"></div>
+ <div><label>Data da prova (quando sair)</label><input type="date" id="cDP" value="${c.dataProva}"></div></div>
+ <div style="margin-top:12px"><button class="btn ok" onclick="saveCfg()">Salvar configurações</button></div>
+</div></div>
+<div class="card"><h2>Backup dos dados</h2><div class="bd">
+ <p>Os dados ficam salvos <b>neste navegador</b> (localStorage). Publicar no GitHub Pages <span class="neg">não</span> sincroniza entre aparelhos: use o backup para levar os dados do computador para o celular e vice-versa, e exporte toda semana.</p>
+ <div class="row"><div style="flex:0 0 auto"><button class="btn" onclick="exportData()">⬇ Exportar backup (.json)</button></div>
+ <div style="flex:0 0 auto"><label class="btn sec" style="margin:0;display:inline-block;color:var(--azul)">⬆ Importar backup<input type="file" accept=".json" style="display:none" onchange="importData(this.files[0])"></label></div>
+ <div style="flex:0 0 auto"><button class="btn ko" onclick="if(confirm('Apagar TODOS os dados?')&&confirm('Tem certeza? Exporte um backup antes.')){localStorage.removeItem(KEY);S=init();save();render()}">Apagar tudo</button></div></div>
+</div></div>`};
+function saveCfg(){const c=S.config;c.horasDia=Math.max(.5,+$('#cH').value||3);c.reserva=Math.min(60,Math.max(0,+$('#cR').value||0));c.diasCiclo=Math.max(1,+$('#cD').value||7);
+  c.foco=Math.max(5,+$('#cF').value||50);c.pausa=Math.max(1,+$('#cP').value||10);c.metaQ=Math.max(0,+$('#cQ').value||0);c.dataProva=$('#cDP').value;save();toast('Configurações salvas ✔');render()}
+function exportData(){const b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='plano-prf-backup-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importData(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.topics)throw 0;localStorage.setItem(KEY,JSON.stringify(d));S=load();save();render();toast('Backup importado ✔')}catch(e){toast('Arquivo inválido')}};r.readAsText(f)}
+
+render();
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
